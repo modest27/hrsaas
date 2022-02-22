@@ -1,5 +1,5 @@
 <template>
-  <div class="dashboard-container">
+  <div v-loading="loading" class="dashboard-container">
     <div class="app-container">
       <!-- 组织架构-头部 -->
       <el-card class="tree-card">
@@ -38,7 +38,8 @@ export default {
       ],
       company: { name: '重庆modest教育科技股份有限公司', manager: '负责人', id: '' },
       showDialog: false, // 默认不显示弹出层
-      node: null // 当前部门，在这之下添加子部门
+      node: null, // 当前部门，在这之下添加子部门
+      loading: false // 用来控制进度弹层的显示和隐藏
     }
   },
   created() {
@@ -46,9 +47,10 @@ export default {
   },
   methods: {
     async getDepartments() {
+      this.loading = true
       const result = await getDepartments()
       this.departs = transListToTreeData(result.depts, '')
-      console.log(result)
+      this.loading = false
     },
     addDepts(node) {
       this.showDialog = true
