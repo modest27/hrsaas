@@ -115,3 +115,18 @@ export function param2Obj(url) {
   })
   return obj
 }
+
+// 将列表型数据转换为树形数据，递归方法
+export function transListToTreeData(list, rootValue) {
+  const res = []
+  list.forEach(item => {
+    if (item.pid === rootValue) {
+      const children = transListToTreeData(list, item.id)
+      if (children) {
+        item.children = children
+      }
+      res.push(item)
+    }
+  })
+  return res
+}

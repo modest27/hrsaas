@@ -5,7 +5,7 @@ import 'nprogress/nprogress.css' // 引入进度条样式
 
 const whiteList = ['/login', '/404']
 // 全局前置守卫
-router.beforeEach((to, from, next) => {
+router.beforeEach(async(to, from, next) => {
   NProgress.start() // 开启进度条
   if (store.getters.token) {
   // 有token，判断是否去登陆页
@@ -13,6 +13,10 @@ router.beforeEach((to, from, next) => {
       next('/')
     } else {
     // 不管怎么样，直接放行
+      if (!store.getters.userId) {
+        // 为什么要写await 因为我们想获取完资料再去放行
+        await store.dispatch('user/getUserInfo')
+      }
       next()
     }
   } else {
