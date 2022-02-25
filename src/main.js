@@ -16,9 +16,19 @@ import '@/icons' // icon
 import '@/permission' // permission control
 
 import * as directives from '@/directives'
+import * as filters from '@/filters' // 引入工具类
+import Component from '@/components'
 
+Vue.use(Component) // 注册自己的插件
+
+// 注册全局自定义指令
 Object.keys(directives).forEach(key => {
   Vue.directive(key, directives[key])
+})
+
+// 注册全局过滤器
+Object.keys(filters).forEach(key => {
+  Vue.filter(key, filters[key])
 })
 
 // set ElementUI lang to EN
