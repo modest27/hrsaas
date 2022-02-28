@@ -18,6 +18,7 @@ import '@/permission' // permission control
 import * as directives from '@/directives'
 import * as filters from '@/filters' // 引入工具类
 import Component from '@/components'
+import checkPermission from '@/mixin/checkPermission.js'
 
 Vue.use(Component) // 注册自己的插件
 
@@ -35,6 +36,7 @@ Object.keys(filters).forEach(key => {
 Vue.use(ElementUI, { locale })
 // 如果想要中文版 element-ui，按如下方式声明
 // Vue.use(ElementUI)
+Vue.mixin(checkPermission) // 为全局注入了一个检查有无按钮权限的混入
 
 Vue.config.productionTip = false
 

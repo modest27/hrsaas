@@ -15,9 +15,14 @@ router.beforeEach(async(to, from, next) => {
     // 不管怎么样，直接放行
       if (!store.getters.userId) {
         // 为什么要写await 因为我们想获取完资料再去放行
-        await store.dispatch('user/getUserInfo')
+        const { roles } = await store.dispatch('user/getUserInfo')
+        // 筛选用户可用路由
+        const routes = await store.dispatch('permission/filterRoutes', roles.menus)
+        router.addRoutes([...routes, { path: '*', redirect: '/404', hidden: true }])
+        next(to.path) // 相当于跳到对应的地址  相当于多做一次跳转 为什么要多做一次跳转
+      } else {
+        next()
       }
-      next()
     }
   } else {
   // 没有token，判断是否去的是白名单
