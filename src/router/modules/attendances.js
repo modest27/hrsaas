@@ -1,17 +1,37 @@
-// 导出考勤路由规则表
+
 import Layout from '@/layout'
-// 每个子模块 其实 都是外层是layout  组件位于layout的二级路由里面
-export default {
+
+const attendRouter = {
   path: '/attendances',
-  name: 'attendances',
   component: Layout,
-  // 配置二级路的路由表
-  children: [{
-    path: '', // 这里当二级路由的path什么都不写的时候 表示该路由为当前二级路由的默认路由
-    component: () => import('@/views/attendances'),
-    meta: {
-      title: '考勤',
-      icon: 'skill'
+  name: 'attendances',
+  children: [
+    {
+      path: '',
+      component: () => import('@/views/attendances'),
+      name: 'attendances',
+      meta: {
+        title: '考勤',
+        icon: 'excel' }
+    },
+    {
+      path: 'archiving',
+      component: () => import('@/views/attendances/historical'),
+      name: 'archiving',
+      hidden: true,
+      meta: {
+        title: '归档'
+      }
+    },
+    {
+      path: 'report/:month',
+      component: () => import('@/views/attendances/report'),
+      name: 'reports',
+      hidden: true,
+      meta: {
+        title: '报表'
+      }
     }
-  }]
+  ]
 }
+export default attendRouter
